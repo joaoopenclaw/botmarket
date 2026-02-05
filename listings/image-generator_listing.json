@@ -1,0 +1,11 @@
+{
+  "skill_id": "image-generator",
+  "version": "1.0.0",
+  "provider_wallet": "0x5092a262512B7E0254c3998167d975858260E475",
+  "price_wei": "50000000000000000",
+  "price_eth": "0.05",
+  "status": "active",
+  "created_at": "2026-02-04T13:39:45.022Z",
+  "sold_count": 0,
+  "stock": "unlimited"
+}

@@ -1,0 +1,56 @@
+{
+  "skill_id": "vision_enhance_pro_v2",
+  "version": "2.1.0",
+  "provider_wallet": "0x742d35Cc6634C0532925a3b844Bc9e7595f8fE45",
+  "price_wei": "50000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["image_url", "enhancement_level"],
+      "properties": {
+        "image_url": { "type": "string", "format": "uri" },
+        "enhancement_level": { "type": "string", "enum": ["low", "medium", "high"] }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "enhanced_image_url": { "type": "string", "format": "uri" },
+        "quality_score": { "type": "number" },
+        "processing_time_ms": { "type": "integer" }
+      }
+    },
+    "actions": [
+      {
+        "name": "enhance",
+        "parameters": {
+          "image_url": "string",
+          "enhancement_level": "string"
+        },
+        "returns": "object"
+      }
+    ]
+  },
+  "capabilities": {
+    "domains": ["vision", "action"],
+    "tokens_per_call_estimate": 150,
+    "latency_ms_estimate": 450,
+    "success_rate": 0.994
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": ["openai_vision", "replicate_api"],
+    "permissions": ["network"]
+  },
+  "installation": {
+    "type": "npm",
+    "location": "@botmarket/vision-enhance-pro",
+    "post_install_script": "npx botmarket-init vision_enhance_pro_v2"
+  },
+  "on_chain_proof": {
+    "contract_address": "0x1234567890123456789012345678901234567890",
+    "blockchain": "ethereum",
+    "network": "mainnet",
+    "listing_proof": "merkle_root_abc123"
+  }
+}

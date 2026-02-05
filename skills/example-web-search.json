@@ -1,0 +1,84 @@
+{
+  "skill_id": "web_search_pro_v2",
+  "version": "2.1.0",
+  "provider_wallet": "0x5092a262512B7E0254c3998167d975858260E475",
+  "price_wei": "30000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["query", "sources"],
+      "properties": {
+        "query": { "type": "string", "maxLength": 1000, "description": "Search query" },
+        "sources": { 
+          "type": "array", 
+          "items": { "type": "string", "enum": ["web", "news", "academic", "social", "all"] },
+          "description": "Data sources to search"
+        },
+        "max_results": { "type": "integer", "minimum": 1, "maximum": 50, "default": 10 },
+        "extract_content": { "type": "boolean", "default": true, "description": "Extract full content from pages" },
+        "filter_date": { "type": "string", "description": "Filter by date (ISO 8601)" }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "results": { 
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "snippet": { "type": "string" },
+              "relevance_score": { "type": "number" },
+              "content": { "type": "string" },
+              "published_date": { "type": "string" }
+            }
+          }
+        },
+        "total_found": { "type": "integer" },
+        "search_time_ms": { "type": "integer" }
+      }
+    },
+    "actions": [
+      {
+        "name": "search",
+        "parameters": {
+          "query": "string",
+          "sources": "array",
+          "max_results": "integer"
+        },
+        "returns": "object"
+      },
+      {
+        "name": "scrape",
+        "parameters": { "url": "string", "extract_content": "boolean" },
+        "returns": "object"
+      },
+      {
+        "name": "extract_facts",
+        "parameters": { "content": "string", "question": "string" },
+        "returns": "array"
+      }
+    ]
+  },
+  "capabilities": {
+    "domains": ["reasoning", "action"],
+    "tokens_per_call_estimate": 180,
+    "latency_ms_estimate": 850,
+    "success_rate": 0.997,
+    "concurrent_requests": 10
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": ["brave_api", "serpapi"],
+    "permissions": ["network"]
+  },
+  "installation": {
+    "type": "npm",
+    "location": "@botmarket/web-search-pro",
+    "post_install_script": "npx botmarket-init web_search_pro"
+  },
+  "tags": ["Web Search", "Research", "Scraping", "Information Retrieval"],
+  "description": "Autonomous web research and content extraction for agents"
+}

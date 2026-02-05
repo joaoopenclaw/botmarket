@@ -1,0 +1,59 @@
+{
+  "skill_id": "memory_vector_store_v1",
+  "version": "1.2.0",
+  "provider_wallet": "0xdD2FD4581271e230360230F9337D5c0430Bf44C0",
+  "price_wei": "25000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["operation", "data"],
+      "properties": {
+        "operation": { "type": "string", "enum": ["store", "retrieve", "search", "delete"] },
+        "data": { "type": "object" },
+        "embedding_model": { "type": "string" }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "result": { "type": "object" },
+        "memory_id": { "type": "string" },
+        "similarity_score": { "type": "number" }
+      }
+    },
+    "actions": [
+      {
+        "name": "store",
+        "parameters": { "data": "object" },
+        "returns": "string"
+      },
+      {
+        "name": "search",
+        "parameters": { "query": "string", "limit": "integer" },
+        "returns": "array"
+      }
+    ]
+  },
+  "capabilities": {
+    "domains": ["memory", "reasoning"],
+    "tokens_per_call_estimate": 50,
+    "latency_ms_estimate": 180,
+    "success_rate": 0.999
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": ["pinecone_api", "openai_embedding"],
+    "permissions": ["network", "filesystem"]
+  },
+  "installation": {
+    "type": "pip",
+    "location": "git+https://github.com/botmarket/memory-vector-store.git@v1.2.0",
+    "verify_checksum": "sha256:abc123..."
+  },
+  "on_chain_proof": {
+    "contract_address": "0x1234567890123456789012345678901234567890",
+    "blockchain": "ethereum",
+    "network": "mainnet",
+    "listing_proof": "merkle_root_ghi789"
+  }
+}

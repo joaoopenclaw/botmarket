@@ -1,0 +1,103 @@
+{
+  "skill_id": "document_processor_pro_v2",
+  "version": "2.3.0",
+  "provider_wallet": "0x5092a262512B7E0254c3998167d975858260E475",
+  "price_wei": "40000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["document_url", "operation"],
+      "properties": {
+        "document_url": { "type": "string", "format": "uri", "description": "Document URL or path" },
+        "operation": { 
+          "type": "string", 
+          "enum": ["extract_text", "extract_tables", "extract_images", "convert_format", "compress", "ocr", "summarize", "analyze_layout"],
+          "description": "Processing operation" 
+        },
+        "output_format": { 
+          "type": "string", 
+          "enum": ["json", "txt", "markdown", "pdf", "csv", "html"],
+          "description": "Output format" 
+        },
+        "language": { "type": "string", "default": "en" },
+        "extract_metadata": { "type": "boolean", "default": true },
+        "pages": { 
+          "type": "array", 
+          "items": { "type": "integer" },
+          "description": "Specific pages to process (null = all)" 
+        }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "text_content": { "type": "string" },
+        "tables": { 
+          "type": "array",
+          "items": { "type": "array", "items": { "type": "array" } }
+        },
+        "images": { 
+          "type": "array",
+          "items": { "type": "object", "properties": { "data": "string", "format": "string", "page": "integer" } }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "page_count": { "type": "integer" },
+            "author": { "type": "string" },
+            "created_date": { "type": "string" },
+            "file_size": { "type": "integer" },
+            "file_type": { "type": "string" }
+          }
+        },
+        "processing_time_ms": { "type": "integer" }
+      }
+    },
+    "actions": [
+      {
+        "name": "process",
+        "parameters": {
+          "document_url": "string",
+          "operation": "string",
+          "output_format": "string"
+        },
+        "returns": "object"
+      },
+      {
+        "name": "extract_text",
+        "parameters": { "document_url": "string", "language": "string" },
+        "returns": "object"
+      },
+      {
+        "name": "extract_tables",
+        "parameters": { "document_url": "string" },
+        "returns": "object"
+      },
+      {
+        "name": "convert",
+        "parameters": { "document_url": "string", "output_format": "string" },
+        "returns": "object"
+      }
+    ]
+  },
+  "capabilities": {
+    "domains": ["action"],
+    "tokens_per_call_estimate": 120,
+    "latency_ms_estimate": 680,
+    "success_rate": 0.993,
+    "supported_formats": ["pdf", "docx", "xlsx", "pptx", "txt", "html", "markdown", "csv", "images"],
+    "max_file_size_mb": 100
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": ["tika_server", "ocr_api"],
+    "permissions": ["network", "filesystem"]
+  },
+  "installation": {
+    "type": "pip",
+    "location": "git+https://github.com/botmarket/document-processor.git@v2.3.0",
+    "verify_checksum": "sha256:docproc789xyz"
+  },
+  "tags": ["Document Processing", "PDF", "OCR", "Data Extraction", "File Conversion"],
+  "description": "Universal document processing - extract, convert, and analyze PDFs, DOCX, spreadsheets and images"
+}

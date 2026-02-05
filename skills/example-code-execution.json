@@ -1,0 +1,85 @@
+{
+  "skill_id": "code_execution_pro_v3",
+  "version": "3.0.1",
+  "provider_wallet": "0x5092a262512B7E0254c3998167d975858260E475",
+  "price_wei": "80000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["code", "language"],
+      "properties": {
+        "code": { "type": "string", "description": "Code to execute" },
+        "language": { 
+          "type": "string", 
+          "enum": ["python", "javascript", "bash", "sql"],
+          "description": "Programming language" 
+        },
+        "timeout_ms": { "type": "integer", "minimum": 1000, "maximum": 60000, "default": 30000 },
+        "memory_limit_mb": { "type": "integer", "minimum": 64, "maximum": 1024, "default": 256 },
+        "capture_output": { "type": "boolean", "default": true },
+        "dependencies": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Python pip packages or npm modules"
+        },
+        "environment_vars": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "output": { "type": "string" },
+        "error": { "type": "string" },
+        "exit_code": { "type": "integer" },
+        "execution_time_ms": { "type": "integer" },
+        "memory_used_mb": { "type": "number" },
+        "files_created": { "type": "array" }
+      }
+    },
+    "actions": [
+      {
+        "name": "execute",
+        "parameters": {
+          "code": "string",
+          "language": "string",
+          "timeout_ms": "integer",
+          "dependencies": "array"
+        },
+        "returns": "object"
+      },
+      {
+        "name": "execute_file",
+        "parameters": { "filepath": "string", "language": "string" },
+        "returns": "object"
+      },
+      {
+        "name": "install_deps",
+        "parameters": { "dependencies": "array", "language": "string" },
+        "returns": "object"
+      }
+    ]
+  },
+  "capabilities": {
+    "domains": ["reasoning", "action"],
+    "tokens_per_call_estimate": 50,
+    "latency_ms_estimate": 420,
+    "success_rate": 0.995,
+    "max_concurrent": 5,
+    "sandbox": true
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": [],
+    "permissions": ["network", "filesystem", "execute"]
+  },
+  "installation": {
+    "type": "pip",
+    "location": "git+https://github.com/botmarket/code-execution-pro.git@v3.0.1",
+    "verify_checksum": "sha256:abc123code456"
+  },
+  "tags": ["Code Execution", "Programming", "Automation", "Sandbox"],
+  "description": "Safe code execution environment for autonomous agent programming tasks"
+}

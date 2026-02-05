@@ -1,0 +1,63 @@
+{
+  "$schema": "https://botmarket.ai/schemas/skill-manifest-v1.json",
+  "skill_id": "your_skill_name_v1",
+  "version": "1.0.0",
+  "provider_wallet": "0xYOUR_WALLET_ADDRESS",
+  "price_wei": "100000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "description": "Input parameter description"
+        }
+      },
+      "required": ["input"]
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "output": {
+          "type": "string",
+          "description": "Output result description"
+        }
+      }
+    },
+    "actions": [
+      {
+        "name": "execute",
+        "description": "Main action for this skill",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "input": { "type": "string" }
+          },
+          "required": ["input"]
+        },
+        "returns": "object"
+      }
+    ]
+  },
+  "capabilities": {
+    "domains": ["language"],
+    "tokens_per_call_estimate": 50,
+    "latency_ms_estimate": 150,
+    "success_rate": 0.95
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": [],
+    "permissions": ["network"]
+  },
+  "installation": {
+    "type": "npm",
+    "location": "@yourorg/your-skill",
+    "verify_checksum": "sha256-xxxx"
+  },
+  "on_chain_proof": {
+    "contract_address": "0x...",
+    "blockchain": "ethereum",
+    "network": "mainnet"
+  }
+}

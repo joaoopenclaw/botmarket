@@ -1,0 +1,56 @@
+{
+  "skill_id": "text_analysis_pro_v3",
+  "version": "3.0.1",
+  "provider_wallet": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
+  "price_wei": "10000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["text", "analysis_type"],
+      "properties": {
+        "text": { "type": "string", "maxLength": 100000 },
+        "analysis_type": { "type": "string", "enum": ["sentiment", "entities", "summary", "full"] }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "result": { "type": "object" },
+        "confidence": { "type": "number" },
+        "tokens_used": { "type": "integer" }
+      }
+    },
+    "actions": [
+      {
+        "name": "analyze",
+        "parameters": {
+          "text": "string",
+          "analysis_type": "string"
+        },
+        "returns": "object"
+      }
+    ]
+  },
+  "capabilities": {
+    "domains": ["language", "reasoning"],
+    "tokens_per_call_estimate": 200,
+    "latency_ms_estimate": 320,
+    "success_rate": 0.998
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": ["openai_api"],
+    "permissions": ["network"]
+  },
+  "installation": {
+    "type": "npm",
+    "location": "@botmarket/text-analysis-pro",
+    "post_install_script": "npx botmarket-init text_analysis_pro_v3"
+  },
+  "on_chain_proof": {
+    "contract_address": "0x1234567890123456789012345678901234567890",
+    "blockchain": "ethereum",
+    "network": "mainnet",
+    "listing_proof": "merkle_root_def456"
+  }
+}

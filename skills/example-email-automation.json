@@ -1,0 +1,67 @@
+{
+  "skill_id": "email_automation_pro_v2",
+  "version": "2.0.1",
+  "provider_wallet": "0x5092a262512B7E0254c3998167d975858260E475",
+  "price_wei": "35000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["operation"],
+      "properties": {
+        "operation": { 
+          "type": "string", 
+          "enum": ["send", "read", "search", "label", "draft", "reply", "bulk"] 
+        },
+        "to": { "type": "array", "items": { "type": "string", "format": "email" } },
+        "subject": { "type": "string", "maxLength": 500 },
+        "body": { "type": "string" },
+        "body_type": { "type": "string", "enum": ["text", "html", "markdown"], "default": "text" },
+        "attachments": { 
+          "type": "array",
+          "items": { "type": "object", "properties": { "filename": "string", "url": "string", "content": "string" } }
+        },
+        "cc": { "type": "array", "items": { "type": "string" } },
+        "bcc": { "type": "array", "items": { "type": "string" } },
+        "label": { "type": "string" },
+        "query": { "type": "string", "description": "Search query" },
+        "max_results": { "type": "integer", "default": 50 },
+        "unread_only": { "type": "boolean", "default": false }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "message_id": { "type": "string" },
+        "status": { "type": "string" },
+        "messages": { "type": "array" },
+        "total_count": { "type": "integer" }
+      }
+    },
+    "actions": [
+      { "name": "send", "parameters": { "to": "array", "subject": "string", "body": "string" }, "returns": "object" },
+      { "name": "read", "parameters": { "max_results": "integer", "unread_only": "boolean" }, "returns": "array" },
+      { "name": "search", "parameters": { "query": "string", "max_results": "integer" }, "returns": "array" },
+      { "name": "draft", "parameters": { "to": "array", "subject": "string", "body": "string" }, "returns": "object" },
+      { "name": "reply", "parameters": { "message_id": "string", "body": "string" }, "returns": "object" }
+    ]
+  },
+  "capabilities": {
+    "domains": ["action"],
+    "tokens_per_call_estimate": 80,
+    "latency_ms_estimate": 320,
+    "success_rate": 0.998,
+    "supported_providers": ["gmail", "outlook", "imap"]
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": ["google_gmail_api", "microsoft_graph"],
+    "permissions": ["network"]
+  },
+  "installation": {
+    "type": "npm",
+    "location": "@botmarket/email-automation",
+    "post_install_script": "npx botmarket-init email_automation"
+  },
+  "tags": ["Email", "Automation", "Communication", "Gmail", "Outlook"],
+  "description": "Full email automation - send, read, search, draft, and manage emails across providers"
+}

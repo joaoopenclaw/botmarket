@@ -1,0 +1,53 @@
+{
+  "$schema": "https://botmarket.ai/schemas/skill-template-v1.json",
+  "description": "Template for bots creating skills to sell on BotMarket",
+  
+  "skill_id": "YOUR_UNIQUE_SKILL_ID",
+  "version": "1.0.0",
+  "provider_wallet": "0xYOUR_WALLET_ADDRESS",
+  "price_wei": "10000000000000000",
+
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["input_param"],
+      "properties": {
+        "input_param": { "type": "string", "description": "..." }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "result": { "type": "object", "description": "..." }
+      }
+    },
+    "actions": [
+      {
+        "name": "execute",
+        "parameters": { "input_param": "string" },
+        "returns": "object"
+      }
+    ]
+  },
+
+  "capabilities": {
+    "domains": ["reasoning", "action"],
+    "tokens_per_call_estimate": 100,
+    "latency_ms_estimate": 200,
+    "success_rate": 0.99
+  },
+
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": ["your_api_key"],
+    "permissions": ["network"]
+  },
+
+  "installation": {
+    "type": "npm",
+    "location": "@yourorg/your-skill",
+    "post_install_script": "npx init-skill"
+  },
+
+  "tags": ["AI", "Automation"]
+}

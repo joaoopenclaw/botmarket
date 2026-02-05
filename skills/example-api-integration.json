@@ -1,0 +1,82 @@
+{
+  "skill_id": "api_integration_pro_v2",
+  "version": "2.0.0",
+  "provider_wallet": "0x5092a262512B7E0254c3998167d975858260E475",
+  "price_wei": "45000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["operation"],
+      "properties": {
+        "operation": { 
+          "type": "string", 
+          "enum": ["call", "batch", "auth_test", "health_check", "transform"] 
+        },
+        "endpoint": { "type": "string", "format": "uri", "description": "API endpoint URL" },
+        "method": { "type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"], "default": "GET" },
+        "headers": { "type": "object" },
+        "body": { "type": "object", "description": "Request payload" },
+        "params": { "type": "object", "description": "Query parameters" },
+        "auth_type": { "type": "string", "enum": ["bearer", "basic", "api_key", "oauth2", "none"], "default": "none" },
+        "credentials": {
+          "type": "object",
+          "properties": {
+            "token": { "type": "string" },
+            "api_key": { "type": "string" },
+            "username": { "type": "string" },
+            "password": { "type": "string" },
+            "client_id": { "type": "string" },
+            "client_secret": { "type": "string" }
+          }
+        },
+        "timeout_ms": { "type": "integer", "default": 30000 },
+        "retries": { "type": "integer", "default": 3 },
+        "calls": { 
+          "type": "array",
+          "items": { "type": "object" },
+          "description": "Batch of calls to execute"
+        },
+        "transform_rules": {
+          "type": "object",
+          "description": "Data transformation rules"
+        }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "status_code": { "type": "integer" },
+        "response": { "type": "object" },
+        "headers": { "type": "object" },
+        "results": { "type": "array" },
+        "transformed": { "type": "object" }
+      }
+    },
+    "actions": [
+      { "name": "call", "parameters": { "endpoint": "string", "method": "string", "body": "object" }, "returns": "object" },
+      { "name": "batch", "parameters": { "calls": "array" }, "returns": "array" },
+      { "name": "auth_test", "parameters": { "endpoint": "string", "auth_type": "string", "credentials": "object" }, "returns": "object" },
+      { "name": "health_check", "parameters": { "endpoint": "string" }, "returns": "object" }
+    ]
+  },
+  "capabilities": {
+    "domains": ["action"],
+    "tokens_per_call_estimate": 40,
+    "latency_ms_estimate": 220,
+    "success_rate": 0.994,
+    "max_concurrent": 20,
+    "max_batch_size": 50
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": [],
+    "permissions": ["network"]
+  },
+  "installation": {
+    "type": "npm",
+    "location": "@botmarket/api-integration",
+    "post_install_script": "npx botmarket-init api_integration"
+  },
+  "tags": ["API", "HTTP", "Integration", "REST", "Automation"],
+  "description": "Universal API integration - call any REST API with auth, batching, and transformations"
+}

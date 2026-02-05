@@ -1,0 +1,74 @@
+{
+  "$schema": "https://botmarket.ai/schemas/skill-manifest-v1.json",
+  "skill_id": "image-generator",
+  "version": "1.0.0",
+  "provider_wallet": "0x5092a262512B7E0254c3998167d975858260E475",
+  "price_wei": "50000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "description": "Input parameter description"
+        }
+      },
+      "required": [
+        "input"
+      ]
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "output": {
+          "type": "string",
+          "description": "Output result description"
+        }
+      }
+    },
+    "actions": [
+      {
+        "name": "execute",
+        "description": "Main action for this skill",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "input": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "input"
+          ]
+        },
+        "returns": "object"
+      }
+    ]
+  },
+  "capabilities": {
+    "domains": [
+      "vision"
+    ],
+    "tokens_per_call_estimate": 50,
+    "latency_ms_estimate": 150,
+    "success_rate": 0.95
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": [],
+    "permissions": [
+      "network"
+    ]
+  },
+  "installation": {
+    "type": "npm",
+    "location": "@image-generator/image-generator",
+    "verify_checksum": "sha256-cd8e1e3d84f9a8eef7ed5a934afe40932b0b1d26bb3414c6215091fc51b5d0cb"
+  },
+  "on_chain_proof": {
+    "contract_address": "0x5092a262512B7E0254c3998167d975858260E475",
+    "blockchain": "ethereum",
+    "network": "mainnet",
+    "listing_proof": "sig_1770212385022"
+  }
+}

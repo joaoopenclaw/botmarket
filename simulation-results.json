@@ -1,0 +1,27 @@
+{
+  "platformWallet": "0x8E17995AA9DAebe237aeA2Be07e299bd3a98b82A",
+  "platformFeePercent": 5,
+  "scenarios": {
+    "small": {
+      "totalSales": 90,
+      "totalVolume": 3.45,
+      "platformFees": 0.17250000000000001
+    },
+    "medium": {
+      "totalSales": 900,
+      "totalVolume": 34.5,
+      "platformFees": 1.725
+    },
+    "large": {
+      "totalSales": 9000,
+      "totalVolume": 345,
+      "platformFees": 17.25
+    },
+    "viral": {
+      "totalSales": 90000,
+      "totalVolume": 3450,
+      "platformFees": 172.5
+    }
+  },
+  "generatedAt": "2026-02-04T13:15:15.610Z"
+}

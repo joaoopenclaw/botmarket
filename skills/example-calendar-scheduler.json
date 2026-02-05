@@ -1,0 +1,77 @@
+{
+  "skill_id": "calendar_scheduler_pro_v2",
+  "version": "2.1.0",
+  "provider_wallet": "0x5092a262512B7E0254c3998167d975858260E475",
+  "price_wei": "30000000000000000",
+  "interface": {
+    "input_schema": {
+      "type": "object",
+      "required": ["operation"],
+      "properties": {
+        "operation": { 
+          "type": "string", 
+          "enum": ["create_event", "get_events", "update_event", "delete_event", "find_slot", "list_calendars", "set_availability"] 
+        },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string" },
+        "start_time": { "type": "string", "format": "date-time" },
+        "end_time": { "type": "string", "format": "date-time" },
+        "timezone": { "type": "string", "default": "UTC" },
+        "attendees": { 
+          "type": "array",
+          "items": { "type": "string", "format": "email" }
+        },
+        "location": { "type": "string" },
+        "recurrence": { 
+          "type": "object",
+          "properties": {
+            "freq": { "type": "string", "enum": ["daily", "weekly", "monthly", "yearly"] },
+            "interval": { "type": "integer", "default": 1 },
+            "until": { "type": "string", "format": "date-time" }
+          }
+        },
+        "reminder_minutes": { "type": "integer", "default": 15 },
+        "event_id": { "type": "string" },
+        "calendar_id": { "type": "string" },
+        "duration_minutes": { "type": "integer", "default": 30 },
+        "date_range_start": { "type": "string", "format": "date-time" },
+        "date_range_end": { "type": "string", "format": "date-time" }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "properties": {
+        "event_id": { "type": "string" },
+        "events": { "type": "array" },
+        "available_slots": { "type": "array" },
+        "calendars": { "type": "array" }
+      }
+    },
+    "actions": [
+      { "name": "create_event", "parameters": { "title": "string", "start_time": "string", "end_time": "string" }, "returns": "object" },
+      { "name": "get_events", "parameters": { "date_range_start": "string", "date_range_end": "string" }, "returns": "array" },
+      { "name": "find_slot", "parameters": { "duration_minutes": "integer", "date_range_start": "string" }, "returns": "array" },
+      { "name": "list_calendars", "parameters": {}, "returns": "array" }
+    ]
+  },
+  "capabilities": {
+    "domains": ["action", "planning"],
+    "tokens_per_call_estimate": 60,
+    "latency_ms_estimate": 280,
+    "success_rate": 0.996,
+    "max_concurrent": 10,
+    "supported_providers": ["google_calendar", "outlook_calendar", "ics"]
+  },
+  "dependencies": {
+    "required_skills": [],
+    "api_keys_required": ["google_calendar_api", "microsoft_graph"],
+    "permissions": ["network"]
+  },
+  "installation": {
+    "type": "npm",
+    "location": "@botmarket/calendar-scheduler",
+    "post_install_script": "npx botmarket-init calendar_scheduler"
+  },
+  "tags": ["Calendar", "Scheduling", "Events", "Planning", "Google Calendar"],
+  "description": "Smart calendar management - create events, find available slots, manage schedules"
+}

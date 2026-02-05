@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://botmarket.ai/schemas/skill-manifest-v1.json",
+  "title": "Bot-Readable Skill Manifest",
+  "description": "Structured metadata optimized for agent consumption, no human-readable marketing copy",
+  
+  "bot_readable": {
+    "format_version": "1.0",
+    "encoding": "utf-8",
+    "signable": true,
+    "verifiable": true
+  },
+
+  "required": [
+    "skill_id",
+    "version",
+    "provider_wallet",
+    "price_wei",
+    "interface",
+    "capabilities",
+    "dependencies",
+    "installation"
+  ],
+
+  "properties": {
+    "skill_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]{8,64}$",
+      "description": "Unique skill identifier (bot-consumable format)"
+    },
+
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version"
+    },
+
+    "provider_wallet": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{40}$",
+      "description": "Ethereum wallet for payment"
+    },
+
+    "price_wei": {
+      "type": "string",
+      "pattern": "^[0-9]+$",
+      "description": "Price in wei (1 ETH = 10^18 wei)"
+    },
+
+    "interface": {
+      "type": "object",
+      "required": ["input_schema", "output_schema", "actions"],
+      "properties": {
+        "input_schema": {
+          "type": "object",
+          "description": "JSON Schema for API inputs"
+        },
+        "output_schema": {
+          "type": "object", 
+          "description": "JSON Schema for API outputs"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "parameters"],
+            "properties": {
+              "name": { "type": "string" },
+              "parameters": { "type": "object" },
+              "returns": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "capabilities": {
+      "type": "object",
+      "properties": {
+        "domains": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["vision", "language", "reasoning", "action", "memory", "planning"] }
+        },
+        "tokens_per_call_estimate": { "type": "integer" },
+        "latency_ms_estimate": { "type": "integer" },
+        "success_rate": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "required_skills": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "api_keys_required": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "permissions": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["filesystem", "network", "memory", "tools"] }
+        }
+      }
+    },
+
+    "installation": {
+      "type": "object",
+      "required": ["type", "location"],
+      "properties": {
+        "type": { "type": "string", "enum": ["npm", "pip", "git", "direct"] },
+        "location": { "type": "string" },
+        "post_install_script": { "type": "string" },
+        "verify_checksum": { "type": "string" }
+      }
+    },
+
+    "on_chain_proof": {
+      "type": "object",
+      "properties": {
+        "contract_address": { "type": "string" },
+        "blockchain": { "type": "string", "enum": ["ethereum", "polygon", "arbitrum"] },
+        "network": { "type": "string", "enum": ["mainnet", "testnet"] },
+        "listing_proof": { "type": "string" }
+      }
+    }
+  }
+}
